@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Plus, Pencil } from "lucide-react";
+import { StockToggleButton } from "@/components/admin/stock-toggle-button";
 import Link from "next/link";
 import {
   Table,
@@ -56,15 +57,18 @@ export default async function ProductsPage() {
                     <span className="text-red-600">Yoxdur</span>
                   )}
                 </TableCell>
-                <TableCell className="text-right space-x-2">
-                  <Button variant="ghost" size="sm" asChild>
-                    <Link href={`/admin/products/${product.id}/edit`}>
-                      <Pencil className="h-4 w-4 mr-1" />
-                      Redaktə
-                    </Link>
-                  </Button>
-                  <DeleteProductButton productId={product.id} />
-                </TableCell>
+             <TableCell className="text-right space-x-2">
+  {/* Yeni əlavə edilən Stok Düyməsi */}
+  <StockToggleButton productId={product.id} inStock={product.inStock} />
+  
+  <Button variant="ghost" size="sm" asChild>
+    <Link href={`/admin/products/${product.id}/edit`}>
+      <Pencil className="h-4 w-4 mr-1" />
+      Redaktə
+    </Link>
+  </Button>
+  <DeleteProductButton productId={product.id} />
+</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -560,6 +560,7 @@ export async function getProduct(id: string) {
   }
 }
 
+
 //StateInfo
 export async function getStateInfo() {
   try {
@@ -567,6 +568,19 @@ export async function getStateInfo() {
   } catch (error) {
     console.error("StateInfo tapılmadı:", error);
     return null;
+  }
+}
+export async function toggleProductStock(productId: string, currentStatus: boolean) {
+  try {
+    await prisma.product.update({
+      where: { id: productId },
+      data: { inStock: !currentStatus },
+    });
+    
+    revalidatePath('/admin/products');
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: "Stok statusu dəyişdirilə bilmədi" };
   }
 }
 
