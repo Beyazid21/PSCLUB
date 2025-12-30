@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { use, useEffect, useState } from 'react';
 import Pusher from 'pusher-js';
+import { useSearchParams } from 'next/navigation';
 
 const steps = [
   { id: 'PENDING', label: 'Sifariş Qəbul Edildi', icon: Clock, description: 'Sifarişiniz qeydə alındı.' },
@@ -15,11 +16,12 @@ const steps = [
 
 export default function OrderStatusPage({ params }: { params: Promise<{ orderId: string }> }) {
   const { orderId } = use(params);
-  // Statusu state-də saxlayırıq ki, Pusher gələndə dəyişsin
+  const searchParams = useSearchParams();
+  const tableId = searchParams.get('tableId');
+
   const [currentStatus, setCurrentStatus] = useState('PENDING');
 
   useEffect(() => {
-    // Pusher qoşulması
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
       cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || 'eu',
     });
@@ -75,8 +77,7 @@ export default function OrderStatusPage({ params }: { params: Promise<{ orderId:
 
        <div className="pt-8 pb-4">
           <Button variant="secondary" className="w-full h-12 rounded-xl border-2 border-gray-200" asChild>
-             {/* Sizin istədiyiniz Ana Səhifə (Menyu) keçidi */}
-             <Link href="/">
+             <Link href={tableId ? `/menu/${tableId}` : '/'}>
                <ArrowLeft className="w-4 h-4 mr-2" />
                Menyuya Qayıt
              </Link>

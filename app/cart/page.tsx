@@ -61,7 +61,7 @@ export default function CartPage() {
 
     if (result.success) {
       cart.clearCart();
-      router.push(`/order/${result.order?.id}`);
+      router.push(`/order/${result.order?.id}?tableId=${tableId}`)
       toast.success('Sifarişiniz qəbul olundu!');
     } else {
       toast.error(result.error || 'Xəta baş verdi');
