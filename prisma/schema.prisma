@@ -3,9 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql" // SQLite-ı silib bunu yaz
   url      = env("DATABASE_URL")
-} 
+}
 
 model Table {
   id        String   @id @default(cuid())
