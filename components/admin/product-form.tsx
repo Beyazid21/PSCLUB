@@ -60,7 +60,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   // useForm daxilində tipləri və defaultValues-u dəqiqləşdiririk
   const form = useForm<ProductFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema) as any, // Bura 'as any' əlavə etdik
     defaultValues: {
       name: initialData?.name || '',
       description: initialData?.description || '',
