@@ -59,7 +59,7 @@ async function main() {
       qrCode: 'table-1',
       name: 'VIP',
       isActive: true,
-      inStock: true,
+    
     },
   });
 
