@@ -45,7 +45,7 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
     if (result.success) {
       toast.success("Məlumatlar yeniləndi");
     } else {
-      toast.error(result.error);
+      toast.error(result?.error || "Bir xəta baş verdi");
     }
   }
 
