@@ -453,23 +453,34 @@ export async function getTotalStatistics() {
 }
 export async function updateOrderStatus(id: string, status: string) {
   try {
-    // 1. Köhnə statusu yoxlayırıq
+
     const currentOrder = await prisma.order.findUnique({ where: { id } });
     
-    // Əgər artıq DELIVERED-dirsə və yenidən DELIVERED olunursa, heç nə etmə
+   
     if (currentOrder?.status === "DELIVERED" && status === "DELIVERED") {
         return { success: true };
     }
 
-    // 2. Əgər İLK DƏFƏ DELIVERED olursa, statistikanı yenilə
+  
     if (status === "DELIVERED") {
       await updateStatistic(id);
     }
 
-    await prisma.order.update({
+ 
+    const updatedOrder = await prisma.order.update({
       where: { id },
       data: { status }
     });
+
+    // 4. PUSHER SİQNALI: İstifadəçinin (müştərinin) səhifəsini real-vaxtda yeniləmək üçün
+    // Bu kod 'OrderStatusPage' komponentindəki .subscribe(`order-status-${orderId}`) hissəsini işə salır
+    try {
+      await pusherServer.trigger(`order-status-${id}`, 'status-updated', {
+        newStatus: status
+      });
+    } catch (pusherError) {
+      console.error('Pusher siqnalı göndərilərkən xəta (müştəri tərəfi):', pusherError);
+    }
     
     revalidatePath('/admin/orders');
     return { success: true };
@@ -478,7 +489,6 @@ export async function updateOrderStatus(id: string, status: string) {
     return { success: false };
   }
 }
-
 // Category Management
 export async function createCategory(formData: FormData) {
   const name = formData.get('name') as string;
