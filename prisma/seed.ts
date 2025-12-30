@@ -21,6 +21,7 @@ async function main() {
         name: 'PlayStation 5',
         description: '1 Saatlıq Oyun',
         price: 15.0,
+        purchasePrice: 15.0,
         categoryId: categories[0].id,
         image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=300',
         inStock: true,
@@ -31,6 +32,7 @@ async function main() {
         name: 'Coca Cola',
         description: '330ml',
         price: 2.5,
+        purchasePrice: 2.5,
         categoryId: categories[1].id,
         image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=300',
         inStock: true,
@@ -39,8 +41,10 @@ async function main() {
     prisma.product.create({
       data: {
         name: 'Red Bull',
+        purchasePrice: 2.5,
         description: 'Enerji İçkisi',
         price: 4.0,
+        
         categoryId: categories[1].id,
         image: 'https://images.unsplash.com/photo-1598614187854-26a60e982dc4?w=300',
         inStock: true,
@@ -53,7 +57,9 @@ async function main() {
     data: {
       number: 1,
       qrCode: 'table-1',
+      name: 'VIP',
       isActive: true,
+      inStock: true,
     },
   });
 
