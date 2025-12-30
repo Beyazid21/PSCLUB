@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { pusherServer } from '@/lib/pusher';
+import { OrderNotification } from '@/components/admin/order-notification';
 
 const productSchema = z.object({
   name: z.string().min(1),
@@ -355,6 +356,7 @@ export async function createNewOrder(tableId: string, items: { productId: string
 
       // Əgər məsafə icazə verilən radiusdan çoxdursa (məs: 100 metr)
       if (distance > restaurantLocation.allowedRadius) {
+        OrderNotification()
         return { 
           success: false, 
           error: `Obyektdən çox uzaqdasınız (${Math.round(distance)}m). Sifariş üçün məkanda olmalısınız.` 
