@@ -33,6 +33,7 @@ function App() {
   const [isExporting, setIsExporting] = React.useState(false);
   const [showLiveJson, setShowLiveJson] = React.useState(true);
   const [jsonModal, setJsonModal] = React.useState<{ isOpen: boolean; type: 'import' | 'export' }>({ isOpen: false, type: 'export' });
+  const [showWelcome, setShowWelcome] = React.useState(true);
   const canvasRef = useRef<CanvasHandle>(null);
 
   useEffect(() => {
@@ -42,6 +43,14 @@ function App() {
       document.documentElement.classList.remove('dark');
     }
   }, [theme]);
+
+  useEffect(() => {
+    // Hide welcome message after 3 seconds
+    const timer = setTimeout(() => {
+      setShowWelcome(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleCustomAsset = (asset: Asset) => {
     addCustomAsset(asset);
@@ -211,6 +220,16 @@ function App() {
       />
 
       <div className="flex-1 flex flex-col relative min-w-0">
+        {/* Welcome Banner */}
+        {showWelcome && (
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 animate-fade-in">
+            <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-6 rounded-2xl shadow-2xl">
+              <h1 className="text-4xl font-bold text-center">Hello! 👋</h1>
+              <p className="text-sm text-center mt-2 opacity-90">Welcome to Traffic Scene Editor</p>
+            </div>
+          </div>
+        )}
+
         {/* Toolbar */}
         <div className="absolute top-4 right-4 z-10 flex gap-2">
             {selectedId && (

@@ -28,8 +28,8 @@ export const useScene = () => {
   }, []);
 
   // History State
-  const [history, setHistory] = useState<SceneItem[][]>([]);
-  const [future, setFuture] = useState<SceneItem[][]>([]);
+  const [, setHistory] = useState<SceneItem[][]>([]);
+  const [, setFuture] = useState<SceneItem[][]>([]);
 
   // Wrap setItems to push to history before updating (unless it's an undo/redo op)
   const setSceneItems = useCallback((newItemsOrUpdater: SceneItem[] | ((prev: SceneItem[]) => SceneItem[])) => {
